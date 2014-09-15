@@ -1,0 +1,13 @@
+{
+  "name": "movierama",
+  "version": "0.0.1",
+  "authors": "Bill Trikalinos",
+  "description": "MovieRama. Browse Roten Movies",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "lodash": "~2.4.1",
+    "requirejs": "~2.1.15",
+    "normalize.css": "~3.0.1"
+  }
+}
