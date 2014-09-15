@@ -8,13 +8,24 @@
     <link href='css/website.css' media='screen' rel='stylesheet' type='text/css' />
   </head>
   <body>
-    <script src="js/vendor/jquery.js" type="text/javascript"></script>
-    <script src="js/vendor/lodash.js" type="text/javascript"></script>
-    <script data-main='application' src="js/vendor/require.js" type="text/javascript"></script>
+    <script src='js/vendor/require.js' type='text/javascript'></script>
     <script>
       requirejs.config({
         baseUrl: 'js',
+        paths: {
+          'lodash': 'vendor/lodash',
+          'jquery': 'vendor/jquery'
+        },
+        shim: {
+          'lodash': {
+            exports: '_'
+          },
+          'jquery': {
+            exports: '$'
+          }
+        }
       });
     </script>
+    <script src='js/application.js' type='text/javascript'></script>
   </body>
 </html>
