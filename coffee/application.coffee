@@ -1,30 +1,27 @@
-require ['api', 'models/movie', 'scroller'], (API, Movie, Scroller)->
-  current_cursor = API.inTheaters()
+require [
+  'settings'
+  'api'
+  'movie_list'
+  'scroller'
+], (Settings, API, MovieList, Scroller)->
+  ## JQUERY SHORTCUTS
+  $list   = $(list)
+  $loader = $('footer')
+  $search = $(search)
+  $win    = $(window)
 
-  get_movies = ->
-    current_cursor.get().then (data)->
-      templates = []
-      movies = []
-      for movie_data in data.movies
-        movie = new Movie(movie_data)
-        templates.push movie.template
-        movies.push movie
+  INTHEATERS_LIST = new MovieList($list, API.inTheaters())
+  CURRENT_LIST = INTHEATERS_LIST
 
-      $(list).append(templates.join(''))
-  loading = -> $('footer').addClass 'show'
-  loaded = -> $('footer').removeClass 'show'
+  ## SCROLLING BEHAVIOUR
+  SCROLLER = new Scroller(Settings.scrolling_offset)
+  SCROLLER.on 'bottom', ->
+    SCROLLER.setMutex()
+    $loader.addClass 'show'
+    CURRENT_LIST.getNext().then( ->
+      SCROLLER.clearMutex()
+    ).always ->
+      $loader.removeClass 'show'
 
-  ## GET FIRST DATA AND DRAW ELEMENTS
-  get_movies()
-
-  ## REGISTER HANDLERS FOR SCROLLING
-  scroller = new Scroller(400)
-  scroller.on 'bottom', ->
-    scroller.setMutex()
-    loading()
-    get_movies().then ->
-      scroller.clearMutex()
-      loaded()
-
-  ## REGISTER HANDLERS FOR MOVIE DETAILS
-  ## REGISTER HANDLERS FOR MOVIE SEARCH
+  ## TODO: REGISTER HANDLERS FOR MOVIE DETAILS
+  return
