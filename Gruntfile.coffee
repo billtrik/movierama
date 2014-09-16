@@ -5,7 +5,7 @@ module.exports = (grunt) ->
     watch:
       coffee:
         files: ['coffee/**/*.coffee']
-        tasks: ['coffee']
+        tasks: ['newer:coffee']
       scss:
         files: ['scss/**/*.scss']
         tasks: ['sass']
