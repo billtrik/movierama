@@ -3,9 +3,15 @@ module.exports = (grunt) ->
     pkg: grunt.file.readJSON('package.json')
 
     watch:
+      static:
+        options:
+          livereload: true
+        files: ['public/index.html']
+
       coffee:
         files: ['coffee/**/*.coffee']
         tasks: ['newer:coffee']
+
       scss:
         files: ['scss/**/*.scss']
         tasks: ['sass']
