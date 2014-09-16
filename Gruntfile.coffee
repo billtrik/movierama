@@ -10,6 +10,15 @@ module.exports = (grunt) ->
         files: ['scss/**/*.scss']
         tasks: ['sass']
 
+      livereload:
+        options:
+          livereload: true
+        files: [
+          'public/js/**/*.js'
+          'public/css/**/*.css'
+        ]
+
+
     coffee:
       options:
         bare: true
