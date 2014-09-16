@@ -59,6 +59,10 @@ module.exports = (grunt) ->
 
   require('load-grunt-tasks') grunt
 
+  grunt.registerTask 'start_web_server', ->
+    grunt.log.writeln('Started web server on port 3000');
+    require('./server').listen(3000)
+
   grunt.registerTask 'bower_install', [
     'bower:install'
     'copy:css'
@@ -72,4 +76,7 @@ module.exports = (grunt) ->
   ]
 
   #DEFAULT TASKS
-  grunt.registerTask 'default', ['watch']
+  grunt.registerTask 'default', [
+    'start_web_server'
+    'watch'
+  ]
