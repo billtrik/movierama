@@ -18,12 +18,21 @@ define ['jquery', 'models/movie'], ($, Movie)->
 
     _onError: -> console.log 'Movie List error'
 
+    updateElement: (e)->
+      $li = $(e.currentTarget)
+      movie_instance = $li.data('_instance')
+
+      if $li.hasClass 'details'
+        movie_instance.showSimple()
+      else
+        movie_instance.showDetailed()
+
     restore: ->
       templates = []
       for movie in @movies
-        templates.push movie.template()
+        templates.push movie.$el
 
-      @$el.html(templates.join(''))
+      @$el.html templates
 
     _printMovies: (data, replace = false)->
       @xhr = null
@@ -35,12 +44,12 @@ define ['jquery', 'models/movie'], ($, Movie)->
 
       for movie_data in data.movies
         movie = new Movie(movie_data)
-        templates.push movie.template()
+        templates.push movie.$el
         @movies.push movie
 
       if replace
-        @$el.html(templates.join(''))
+        @$el.html templates
       else
-        @$el.append(templates.join(''))
+        @$el.append templates
 
   return MovieList

@@ -41,5 +41,6 @@ require [
       CURRENT_LIST = new MovieList($list, API.search(query))
       CURRENT_LIST.then -> SEARCH_FORM.hideLoader()
 
-  ## TODO: REGISTER HANDLERS FOR MOVIE DETAILS
+  ## REGISTER HANDLERS FOR MOVIE DETAILS
+  $list.on 'click', '.movie_item', CURRENT_LIST.updateElement
   return

@@ -1,16 +1,16 @@
 #list{
-  list-style-type: none;
-  list-style-position: inside;
 
-
-  li{
+  > li{
+    position:relative;
     border:1px solid $black;
+    border:1px solid black;
     background:$white;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     margin-bottom:10px;
-    padding:10px;
+    padding:10px 10px 20px;
+    cursor:pointer;
 
     img{
       float:left;
@@ -18,25 +18,101 @@
       margin:5px;
     }
 
-    p,h1{
-      padding:0 0 6px 74px;
+    p,h1, h2, dl{
+      padding-left:74px;
     }
 
     h1{
       font-size: 1.4em;
+      margin: 8px 0;
     }
 
-    .info, .actors{
-      font-size: 0.9em;
+    h2{
+      font-size: 1.2em;
+    }
+
+    span{
+      font-weight:bold;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+      &:hover{
+        text-decoration:underline;
+      }
+    }
+
+    .info, .cast, .genre{
+      margin-top:5px;
       font-style:italic;
-      padding-bottom:4px;
+    }
+
+    .director, .cast, .similar, .info, .genre{
+      font-size: 0.9em;
     }
 
     .summary{
-      padding-top:10px;
-      font-size:1.1em;
-      line-height:1.2em;
+      margin-top:10px;
+      line-height:1.4em;
+    }
 
+    .director, .cast{
+      margin-top:10px;
+    }
+
+    .similar{
+      margin-top:10px;
+
+      p{
+        float:left;
+        margin-right:10px;
+      }
+
+      dt{
+        margin-right:10px;
+        display: inline-block;
+      }
+    }
+
+    .reviews{
+      margin-top:20px;
+    }
+
+    .overlay{
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+      background: white;
+      opacity: 0.9;
+      .progress{
+        position:absolute;
+        top:50%;
+        left:50%;
+        margin-top:-60px;
+        margin-left:-60px;
+      }
+    }
+
+    &.details{
+      position:fixed;
+      top:10px;
+      left:10px;
+      right:10px;
+      bottom:10px;
+      box-shadow: 0px 0px 16px -1px black;
+      z-index: 10;
+      padding:80px;
+      overflow: auto;
+      p,h1, h2, dl{
+        padding-left:124px;
+        padding-right:50px;
+      }
+      .cast{
+        font-style:normal;
+      }
     }
   }
 }
