@@ -36,7 +36,7 @@ module.exports = (grunt) ->
 
       scss:
         files: ['scss/**/*.scss']
-        tasks: ['sass']
+        tasks: ['build_scss']
 
       livereload:
         options:
@@ -62,11 +62,17 @@ module.exports = (grunt) ->
         ext: '.js'
 
     sass:
-      options:
-        style: 'expanded'
-      src:
+      expanded:
+        options:
+          style: 'expanded'
         src: 'scss/website.scss'
         dest: 'public/css/website.css'
+
+      compressed:
+        options:
+          style: 'compressed'
+        src: 'scss/website.scss'
+        dest: 'public/css/website.min.css'
 
     bower:
       install:
@@ -105,6 +111,10 @@ module.exports = (grunt) ->
     grunt.log.writeln('Started web server on port 3000');
     require('./server').listen(3000)
 
+  grunt.registerTask 'build_scss', [
+    'sass'
+  ]
+
   grunt.registerTask 'build_coffee', [
     'coffee'
     'requirejs'
@@ -118,7 +128,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'build', [
     'bower_install'
-    'sass'
+    'build_scss'
     'build_coffee'
   ]
 
