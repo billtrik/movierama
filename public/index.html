@@ -12,7 +12,11 @@
       <div class='container'>
         <h1>MovieRama: Browse movies</h1>
         <form id='form'>
-          <input id='search' type='text'  name='search' placeholder='Search for movie title' autocomplete='off'>
+          <div id='search_container'>
+            <input id='search' type='text'  name='search' placeholder='Search for movie title' autocomplete='off'>
+            <span id='timeout_bar'></span>
+            <div class="small progress"><div>Loading…</div></div>
+          </div>
           <button id='reset' type='reset'>X</button>
         </form>
       </div>

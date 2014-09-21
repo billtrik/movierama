@@ -1,9 +1,10 @@
 require [
   'settings'
   'api'
+  'search_form'
   'movie_list'
   'scroller'
-], (Settings, API, MovieList, Scroller)->
+], (Settings, API, SearchForm, MovieList, Scroller)->
   ## JQUERY SHORTCUTS
   $list   = $(list)
   $loader = $('footer')
@@ -22,6 +23,23 @@ require [
       SCROLLER.clearMutex()
     ).always ->
       $loader.removeClass 'show'
+
+  ## SEARCH BEHAVIOUR
+  SEARCH_FORM = new SearchForm($search)
+  SEARCH_FORM.on 'query_start', (query)->
+    CURRENT_LIST.xhr and CURRENT_LIST.xhr.abort()
+    SEARCH_FORM.hideLoader()
+
+  SEARCH_FORM.on 'query', (query)->
+    $win.scrollTop(0)
+    SEARCH_FORM.showLoader()
+    if query is ''
+      CURRENT_LIST = INTHEATERS_LIST
+      INTHEATERS_LIST.restore()
+      SEARCH_FORM.hideLoader()
+    else
+      CURRENT_LIST = new MovieList($list, API.search(query))
+      CURRENT_LIST.then -> SEARCH_FORM.hideLoader()
 
   ## TODO: REGISTER HANDLERS FOR MOVIE DETAILS
   return

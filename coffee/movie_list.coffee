@@ -18,6 +18,13 @@ define ['jquery', 'models/movie'], ($, Movie)->
 
     _onError: -> console.log 'Movie List error'
 
+    restore: ->
+      templates = []
+      for movie in @movies
+        templates.push movie.template()
+
+      @$el.html(templates.join(''))
+
     _printMovies: (data, replace = false)->
       @xhr = null
 
