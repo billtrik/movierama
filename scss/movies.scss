@@ -1,0 +1,42 @@
+#list{
+  list-style-type: none;
+  list-style-position: inside;
+
+
+  li{
+    border:1px solid $black;
+    background:$white;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-bottom:10px;
+    padding:10px;
+
+    img{
+      float:left;
+      width:54px;
+      margin:5px;
+    }
+
+    p,h1{
+      padding:0 0 6px 74px;
+    }
+
+    h1{
+      font-size: 1.4em;
+    }
+
+    .info, .actors{
+      font-size: 0.9em;
+      font-style:italic;
+      padding-bottom:4px;
+    }
+
+    .summary{
+      padding-top:10px;
+      font-size:1.1em;
+      line-height:1.2em;
+
+    }
+  }
+}
