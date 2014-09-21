@@ -2,6 +2,31 @@ module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
 
+    uglify:
+      options:
+        mangle: false,
+        preserveComments: false,
+        report: "min",
+        compress:
+          hoist_funs: false,
+          loops: false,
+          unused: false
+      loader:
+        files:
+         'public/js/loader.min.js': 'public/js/loader.js'
+
+    concat:
+      options:
+        separator: '\n'
+      loader:
+        src: [
+          'wrappers/loader_intro.js'
+          'compiled/vendor/require.js'
+          'compiled/r_config.js'
+          'wrappers/loader_outro.js'
+        ]
+        dest: 'public/js/loader.js'
+
     requirejs:
       compile:
         options:
@@ -22,6 +47,12 @@ module.exports = (grunt) ->
           src: ['spec/**/*_spec.coffee']
 
     watch:
+      wrappers:
+        files: ['wrappers/*']
+        tasks: [
+          'build_loader'
+        ]
+
       static:
         options:
           livereload: true
@@ -32,6 +63,7 @@ module.exports = (grunt) ->
         tasks: [
           'newer:coffee'
           'requirejs'
+          'build_loader'
         ]
 
       scss:
@@ -49,7 +81,6 @@ module.exports = (grunt) ->
       spec:
         files: ['spec/**/*_spec.coffee']
         tasks: ['mocha_casperjs']
-
 
     coffee:
       options:
@@ -111,6 +142,11 @@ module.exports = (grunt) ->
     grunt.log.writeln('Started web server on port 3000');
     require('./server').listen(3000)
 
+  grunt.registerTask 'build_loader', [
+    'concat:loader'
+    'uglify:loader'
+  ]
+
   grunt.registerTask 'build_scss', [
     'sass'
   ]
@@ -126,10 +162,12 @@ module.exports = (grunt) ->
     'copy:js'
   ]
 
+
   grunt.registerTask 'build', [
     'bower_install'
     'build_scss'
     'build_coffee'
+    'build_loader'
   ]
 
   #DEFAULT TASKS
