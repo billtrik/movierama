@@ -2,6 +2,15 @@ module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
 
+    mocha_casperjs:
+      specs:
+        options:
+          'chai-path':        'node_modules/chai'
+          'casper-chai-path': 'node_modules/casper-chai'
+
+        files:
+          src: ['spec/**/*_spec.coffee']
+
     watch:
       static:
         options:
@@ -23,6 +32,10 @@ module.exports = (grunt) ->
           'public/js/**/*.js'
           'public/css/**/*.css'
         ]
+
+      spec:
+        files: ['spec/**/*_spec.coffee']
+        tasks: ['mocha_casperjs']
 
 
     coffee:
@@ -94,4 +107,9 @@ module.exports = (grunt) ->
   grunt.registerTask 'default', [
     'start_web_server'
     'watch'
+  ]
+  grunt.registerTask 'test', [
+    'build'
+    'start_web_server'
+    'mocha_casperjs'
   ]
