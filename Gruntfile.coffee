@@ -2,6 +2,16 @@ module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
 
+    requirejs:
+      compile:
+        options:
+          baseUrl: "compiled"
+          mainConfigFile: "compiled/r_config.js"
+          name: "application"
+          out: "public/js/application.js"
+          optimize: "uglify2"
+          preserveLicenseComments: false
+
     mocha_casperjs:
       specs:
         options:
@@ -19,7 +29,10 @@ module.exports = (grunt) ->
 
       coffee:
         files: ['coffee/**/*.coffee']
-        tasks: ['newer:coffee']
+        tasks: [
+          'newer:coffee'
+          'requirejs'
+        ]
 
       scss:
         files: ['scss/**/*.scss']
@@ -45,7 +58,7 @@ module.exports = (grunt) ->
         expand: true
         cwd: 'coffee'
         src: ['**/*.coffee']
-        dest: 'public/js/'
+        dest: 'compiled/'
         ext: '.js'
 
     sass:
@@ -76,13 +89,14 @@ module.exports = (grunt) ->
           'lodash/dist/lodash.js'
           'requirejs/require.js'
         ]
-        dest: 'public/js/vendor/'
+        dest: 'compiled/vendor/'
 
     clean:
       public:
         src: [
           'public/css/**/*'
           'public/js/**/*'
+          'compiled/**/*'
         ]
 
   require('load-grunt-tasks') grunt
@@ -90,6 +104,11 @@ module.exports = (grunt) ->
   grunt.registerTask 'start_web_server', ->
     grunt.log.writeln('Started web server on port 3000');
     require('./server').listen(3000)
+
+  grunt.registerTask 'build_coffee', [
+    'coffee'
+    'requirejs'
+  ]
 
   grunt.registerTask 'bower_install', [
     'bower:install'
@@ -99,8 +118,8 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'build', [
     'bower_install'
-    'coffee'
     'sass'
+    'build_coffee'
   ]
 
   #DEFAULT TASKS
