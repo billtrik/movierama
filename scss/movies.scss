@@ -96,7 +96,28 @@
       }
     }
 
+    .closeme{
+      position:absolute;
+      top:20px;
+      right:20px;
+      width:40px;
+      height:40px;
+      font-size:3em;
+      line-height:30px;
+      font-weight:bold;
+      text-align:center;
+      border:1px solid transparent;
+      transition: all .3s;
+      &:hover{
+        border:1px solid $black;
+        text-decoration:none;
+        cursor: pointer;
+      }
+    }
+
+
     &.details{
+      cursor: default;
       position:fixed;
       top:10px;
       left:10px;

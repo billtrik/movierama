@@ -11,6 +11,7 @@ define ['lodash'], (_)->
   loader = """<div class="overlay"><div class="large progress"><span>Loading…</span></div></div>"""
 
   detailed = """
+    <a href='#' class='closeme'>&times;</a>
     <img src='<%= poster %>'>
     <h1><%= title %></h1>
     <p class='genre'><%= genre %></p>

@@ -68,9 +68,12 @@ define [
       movie_instance = $li.data('_instance')
 
       if $li.hasClass 'details'
+        return unless $(e.toElement).hasClass 'closeme'
         movie_instance.showSimple()
       else
         movie_instance.showDetailed()
+
+      return false
 
     _parseData: (data, append = false)->
       templates = []
