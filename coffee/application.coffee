@@ -1,49 +1,29 @@
 define [
-  'settings'
   'api'
   'search_form'
   'movie_list'
-  'scroller'
-], (Settings, API, SearchForm, MovieList, Scroller)->
+], (API, SearchForm, MovieList)->
   class MovieRama
     constructor: ->
-      ## JQUERY SHORTCUTS
-      $list   = $(list)
-      $loader = $('footer')
       $search = $(search)
       $win    = $(window)
 
-      INTHEATERS_LIST = new MovieList($list, API.inTheaters())
-      CURRENT_LIST = INTHEATERS_LIST
+      list = new MovieList $('#list')
+      list.load('in_theaters', API.inTheaters())
 
-      ## SCROLLING BEHAVIOUR
-      SCROLLER = new Scroller(Settings.scrolling_offset)
-      SCROLLER.on 'bottom', ->
-        SCROLLER.setMutex()
-        $loader.addClass 'show'
-        CURRENT_LIST.getNext().then( ->
-          SCROLLER.clearMutex()
-        ).always ->
-          $loader.removeClass 'show'
+      search_form = new SearchForm($search)
+      search_form.on 'query_start', (query)->
+        list.stopLoading()
+        search_form.hideLoader()
 
-      ## SEARCH BEHAVIOUR
-      SEARCH_FORM = new SearchForm($search)
-      SEARCH_FORM.on 'query_start', (query)->
-        CURRENT_LIST.xhr and CURRENT_LIST.xhr.abort()
-        SEARCH_FORM.hideLoader()
-
-      SEARCH_FORM.on 'query', (query)->
+      search_form.on 'query', (query)->
         $win.scrollTop(0)
-        SEARCH_FORM.showLoader()
+        search_form.showLoader()
         if query is ''
-          CURRENT_LIST = INTHEATERS_LIST
-          INTHEATERS_LIST.restore()
-          SEARCH_FORM.hideLoader()
+          list.load('in_theaters')
+          search_form.hideLoader()
         else
-          CURRENT_LIST = new MovieList($list, API.search(query))
-          CURRENT_LIST.then -> SEARCH_FORM.hideLoader()
-
-      ## REGISTER HANDLERS FOR MOVIE DETAILS
-      $list.on 'click', '.movie_item', CURRENT_LIST.updateElement
+          list.load("search_#{query}", API.search(query)).then ->
+            search_form.hideLoader()
 
   return MovieRama

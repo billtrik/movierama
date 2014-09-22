@@ -22,7 +22,9 @@ define ['jquery'], ($)->
 
     _registerHAndlers: -> @win.on 'scroll', @_onScroll
 
-    _reachedBottom: -> @win.scrollTop() >= @doc.height() - @win.height() - @offset
+    _reachedBottom: ->
+      return false unless @doc.height() > @win.height()
+      @win.scrollTop() >= @doc.height() - @win.height() - @offset
 
     _onScroll: =>
       return if @mutex
